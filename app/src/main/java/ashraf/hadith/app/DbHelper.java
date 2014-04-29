@@ -17,14 +17,19 @@ import java.io.OutputStream;
  * Created by jitu on 4/28/14.
  */
 public class DbHelper extends SQLiteOpenHelper {
-    private static String DB_PATH = "data/data/ashraf.hadith.app/databases/";
+    private static String DB_PATH = "";
     private static String DB_NAME = "hadith.db";
     private SQLiteDatabase dbObj;
     private final Context context;
 
-    public DBMain(Context context) {
+    public DbHelper(Context context) {
         super(context, DB_NAME, null, 3);
         this.context = context;
+        if (android.os.Build.VERSION.SDK_INT >= 17) {
+            DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
+        } else {
+            DB_PATH = "/data/data/" + context.getApplicationContext().getPackageName() + "/databases/";
+        }
     }
 
     public void createDB() throws IOException {
